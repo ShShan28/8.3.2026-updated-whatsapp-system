@@ -1,0 +1,1427 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Professional WhatsApp Bulk Sender with Enterprise Features">
+    <title>WhatsApp Sender Pro - Enterprise Edition v4.0</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* Custom Styles */
+        :root {
+            --primary-color: #25D366;
+            --secondary-color: #075E54;
+            --accent-color: #128C7E;
+            --dark-bg: #1a1d28;
+            --light-bg: #f8f9fa;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: #f5f7fb;
+            overflow-x: hidden;
+        }
+
+        .main-wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--dark-bg) 0%, #12151f 100%);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 1000;
+            box-shadow: 3px 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar-brand {
+            padding: 25px 20px;
+            font-size: 1.4rem;
+            font-weight: 700;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand i {
+            color: var(--primary-color);
+            font-size: 1.8rem;
+        }
+
+        .nav-section {
+            padding: 20px 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .nav-btn {
+            width: 100%;
+            padding: 12px 20px;
+            background: transparent;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            position: relative;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            padding-left: 25px;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(37, 211, 102, 0.15) 0%, transparent 100%);
+            color: white;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .nav-btn i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 15px 20px;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            flex-grow: 1;
+            margin-left: var(--sidebar-width);
+            padding: 20px;
+            min-height: 100vh;
+            background-color: #f5f7fb;
+        }
+
+        header {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .text-gradient {
+            background: linear-gradient(90deg, var(--secondary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .status-badge-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* View Styles */
+        .view {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Card Styles */
+        .card {
+            border: none;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+            background: white;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            padding: 18px 25px;
+            font-weight: 600;
+            border-radius: 12px 12px 0 0 !important;
+            color: #333;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        /* Form Styles */
+        .form-label {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #444;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-control,
+        .form-select {
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 10px 15px;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.15);
+        }
+
+        /* Button Styles */
+        .btn {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+            border: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Badge Styles */
+        .badge {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        /* Contacts Scroll Box */
+        .contacts-scroll-box {
+            overflow-y: auto;
+            padding-right: 5px;
+            max-height: 200px;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        /* Alert Styles */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 15px 20px;
+        }
+
+        /* Custom Range Slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: #e9ecef;
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--primary-color);
+            cursor: pointer;
+            border: 3px solid white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Toggle Switch */
+        .form-switch .form-check-input:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent-color);
+        }
+
+        /* Scheduler Controls */
+        .scheduler-controls {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        /* IP Detection */
+        .ip-detection {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px dashed #dee2e6;
+        }
+
+        /* Safety Settings */
+        .safety-settings {
+            border-left: 4px solid #ffc107;
+            padding-left: 15px;
+            margin-top: 20px;
+        }
+
+        /* Single Send Mode Sections */
+        #singleFileSection,
+        #singleMessageSection {
+            transition: all 0.3s ease;
+        }
+
+        /* Watermark Info */
+        .watermark-info {
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border: 1px solid #90caf9;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.875rem;
+        }
+
+        /* Delay Optimization */
+        .delay-optimization {
+            background: linear-gradient(135deg, #f3e5f5, #e1bee7);
+            border: 1px solid #ce93d8;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.875rem;
+        }
+
+        /* Duplicate Prevention */
+        .duplicate-prevention {
+            background: linear-gradient(135deg, #d4edda, #c3e6cb);
+            border: 1px solid #c3e6cb;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.875rem;
+        }
+
+        /* Auto Responder Status */
+        .auto-responder-status {
+            background: linear-gradient(135deg, #d1ecf1, #bee5eb);
+            border: 1px solid #bee5eb;
+            border-radius: 8px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            font-size: 0.875rem;
+        }
+
+        /* Watermark Format Options */
+        .watermark-format {
+            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+            border: 1px solid #ffd54f;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            padding: 15px 20px;
+            text-align: center;
+            color: #666;
+            font-size: 0.9rem;
+            margin-left: var(--sidebar-width);
+            border-top: 1px solid #eee;
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+
+            .sidebar.active {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            footer {
+                margin-left: 0;
+            }
+        }
+
+        /* Real Time Clock Styles */
+        .real-time-clock {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            min-width: 180px;
+        }
+
+        .real-time-clock i {
+            font-size: 1rem;
+        }
+
+        #clockTime {
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            font-size: 1rem;
+        }
+
+        #clockDate {
+            opacity: 0.9;
+            font-weight: 500;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-left: 8px !important;
+        }
+
+        /* Responsive adjustments for clock */
+        @media (max-width: 1200px) {
+            .real-time-clock {
+                min-width: 160px;
+                font-size: 0.9rem;
+            }
+
+            #clockTime {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .real-time-clock {
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main-wrapper">
+
+        <!-- ========== SIDEBAR NAVIGATION ========== -->
+        <nav class="sidebar">
+            <div class="sidebar-brand">
+                <i class="bi bi-whatsapp text-success"></i>
+                <span>WA Sender Pro</span>
+            </div>
+
+            <div class="nav-section">
+                <button class="nav-btn active" data-view="dashboard">
+                    <i class="bi bi-speedometer2"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button class="nav-btn" data-view="send">
+                    <i class="bi bi-send"></i>
+                    <span>Single Send</span>
+                </button>
+                <button class="nav-btn" data-view="bulk">
+                    <i class="bi bi-broadcast"></i>
+                    <span>Bulk Sender</span>
+                </button>
+                <button class="nav-btn" data-view="contacts">
+                    <i class="bi bi-people"></i>
+                    <span>Contacts & Plans</span>
+                </button>
+                <button class="nav-btn" data-view="notifications">
+                    <i class="bi bi-bell"></i>
+                    <span>Automation</span>
+                </button>
+                <button class="nav-btn" data-view="scheduler">
+                    <i class="bi bi-calendar-event"></i>
+                    <span>Scheduler</span>
+                </button>
+                <button class="nav-btn" data-view="templates">
+                    <i class="bi bi-file-text"></i>
+                    <span>Templates</span>
+                </button>
+                <button class="nav-btn" data-view="logs">
+                    <i class="bi bi-journal-text"></i>
+                    <span>Logs & History</span>
+                </button>
+
+                <div class="sidebar-divider"></div>
+
+                <button class="nav-btn" data-view="admin">
+                    <i class="bi bi-gear"></i>
+                    <span>Admin Settings</span>
+                </button>
+            </div>
+
+            <div class="sidebar-footer">
+                <div id="instanceId" class="mb-2">
+                    <span class="spinner-grow spinner-grow-sm" role="status"></span>
+                    <span class="ms-2">Loading...</span>
+                </div>
+                <div class="mt-2">
+                    <span class="badge bg-dark">v4.0 Enterprise Edition</span>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ========== MAIN CONTENT AREA ========== -->
+        <main class="main-content">
+
+            <!-- ========== HEADER ========== -->
+            <header>
+                <h4 id="viewTitle" class="text-gradient">Dashboard</h4>
+                <div class="status-badge-group">
+                    <div class="d-flex align-items-center">
+                        <div class="real-time-clock" id="realTimeClock">
+                            <i class="bi bi-clock me-1"></i>
+                            <span id="clockTime">--:--:--</span>
+                            <span id="clockDate" class="ms-2 small"></span>
+                        </div>
+                    </div>
+                    <div id="adminServerStatus" class="badge bg-secondary">
+                        <i class="bi bi-circle-fill me-1" style="font-size: 0.6rem;"></i>
+                        Checking Server...
+                    </div>
+                    <div id="connectionStatus" class="badge bg-info">
+                        <i class="bi bi-wifi"></i> Online
+                    </div>
+                    <div id="messageCount" class="badge bg-success">
+                        <i class="bi bi-chat-dots"></i> Sent: 0
+                    </div>
+                    <div id="currentIPDisplay" class="badge bg-dark">
+                        <i class="bi bi-pc-display"></i> IP: Detecting...
+                    </div>
+                </div>
+            </header>
+
+            <!-- ========== VIEW: DASHBOARD ========== -->
+            <div id="view-dashboard" class="view active">
+                <!-- Dashboard content dynamically generated by JavaScript -->
+            </div>
+
+            <!-- ========== VIEW: SINGLE SEND ========== -->
+            <div id="view-send" class="view">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8 col-xl-7">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-send"></i> Compose Message
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-person-badge"></i> Recipient Number
+                                    </label>
+                                    <div class="input-group">
+                                        <input type="text" id="singleNumber" class="form-control"
+                                            placeholder="e.g. +1234567890">
+                                        <button class="btn btn-outline-secondary" type="button" id="saveContactBtn"
+                                            title="Save to Contacts">
+                                            <i class="bi bi-person-plus"></i>
+                                        </button>
+                                    </div>
+                                    <div class="form-text">Enter phone number with country code</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-chat-left-text"></i> Message Type
+                                    </label>
+                                    <div class="d-flex gap-3">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="sendMode" value="message"
+                                                id="modeMsg">
+                                            <label class="form-check-label" for="modeMsg">Message Only</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="sendMode" value="file"
+                                                id="modeFile">
+                                            <label class="form-check-label" for="modeFile">File Only</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="sendMode" value="both"
+                                                id="modeBoth" checked>
+                                            <label class="form-check-label" for="modeBoth">Both</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="singleMessageSection" class="mb-3">
+                                    <label class="form-label">
+                                        <i class="bi bi-chat-square-text"></i> Message Content
+                                    </label>
+                                    <textarea id="singleMessage" class="form-control" rows="5"
+                                        placeholder="Type your message here..."></textarea>
+                                    <div class="form-text">
+                                        <i class="bi bi-lightbulb"></i> Use <code>{name} | {filename} | {date}</code> for dynamic
+                                        personalization
+                                    </div>
+                                </div>
+
+                                <div id="singleFileSection" class="mb-4">
+                                    <label class="form-label">
+                                        <i class="bi bi-paperclip"></i> Attachment (PDF/Image)
+                                    </label>
+                                    <input type="file" id="singleFile" class="form-control">
+                                    <div class="form-text">
+                                        <i class="bi bi-info-circle"></i> Maximum <span
+                                            id="currentFileSize">30MB</span>. Watermarking applies if enabled.
+                                    </div>
+                                    <div class="mt-2">
+                                        <div class="progress">
+                                            <div id="fileUploadProgress" class="progress-bar" role="progressbar"
+                                                style="width: 0%"></div>
+                                        </div>
+                                        <small id="fileSizeInfo" class="text-muted"></small>
+                                    </div>
+                                </div>
+
+                                <div class="watermark-info">
+                                    <i class="bi bi-lightbulb text-warning"></i>
+                                    <strong>Smart Delay:</strong> When using {name} with files, watermarking time
+                                    replaces normal delay instead of adding to it.
+                                </div>
+
+                                <button id="sendSingleBtn" class="btn btn-primary w-100 py-3 mt-3">
+                                    <i class="bi bi-send-fill"></i> Send Message Now
+                                </button>
+
+                                <div id="singleResult" class="mt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: BULK SENDER ========== -->
+            <div id="view-bulk" class="view">
+                <div class="row g-4">
+                    <!-- Recipients Column -->
+                    <div class="col-lg-4">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-people"></i> 1. Recipients</span>
+                                <span id="bulkContactCounter" class="badge bg-secondary">0/0 selected</span>
+                            </div>
+                            <div class="card-body">
+                                <div class="duplicate-prevention mb-3">
+                                    <i class="bi bi-shield-check text-success"></i>
+                                    <strong>Duplicate Prevention:</strong> Duplicate phone numbers are automatically
+                                    removed before sending.
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Import CSV</label>
+                                    <input type="file" id="bulkCsv" class="form-control" accept=".csv,.txt">
+                                    <div class="form-text">One number per line</div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Manual List</label>
+                                    <textarea id="bulkList" class="form-control" rows="5"
+                                        placeholder="1234567890&#10;0987654321&#10;..."></textarea>
+                                    <button id="previewBulkBtn" class="btn btn-sm btn-outline-secondary w-100 mt-2">
+                                        <i class="bi bi-eye"></i> Preview List
+                                    </button>
+                                </div>
+
+                                <hr>
+
+                                <div class="mb-2">
+                                    <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="collapse"
+                                        data-bs-target="#bulkSavedContainer">
+                                        <i class="bi bi-caret-down-fill"></i> Select from Saved Contacts
+                                    </a>
+                                    <div id="bulkSavedContainer" class="collapse mt-2">
+                                        <div class="form-check border-bottom pb-2 mb-2">
+                                            <input class="form-check-input" type="checkbox" id="selectAllBulk">
+                                            <label class="form-check-label fw-bold" for="selectAllBulk">
+                                                Select All
+                                            </label>
+                                        </div>
+                                        <div class="mb-2">
+                                            <input type="text" id="searchBulkContacts"
+                                                class="form-control form-control-sm"
+                                                placeholder="Search saved contacts...">
+                                        </div>
+                                        <div id="bulkContactsList" class="contacts-scroll-box"></div>
+                                    </div>
+                                </div>
+
+                                <div id="bulkPreview" class="mt-auto pt-3"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content & Controls Column -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-chat-left-quote"></i> 2. Content & Control
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-3">
+                                    <label class="form-label">Message Template</label>
+                                    <textarea id="bulkMessage" class="form-control" rows="6"
+                                        placeholder="Hi {name}, here is your personalized document..."></textarea>
+                                    <div class="form-text">
+                                        <i class="bi bi-lightbulb"></i> Use <code>{name} | {filename} | {date}</code> for dynamic
+                                        personalization
+                                    </div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label">Attachment (Optional)</label>
+                                    <input type="file" id="bulkFile" class="form-control">
+                                    <div class="form-text">Watermark will be applied if {name} is used. Max: <span
+                                            id="bulkFileSize">30MB</span></div>
+                                </div>
+
+                                <div class="delay-optimization">
+                                    <i class="bi bi-clock-history text-info"></i>
+                                    <strong>Delay Optimization:</strong> For large batches, progressive delay is
+                                    automatically applied for safety.
+                                </div>
+
+                                <div class="card border-0 mt-4"
+                                    style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+                                    <div class="card-body">
+                                        <label class="form-label fw-bold text-uppercase small mb-3">
+                                            <i class="bi bi-sliders"></i> Process Controls
+                                        </label>
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <button id="sendBulkBtn" class="btn btn-success flex-grow-1">
+                                                <i class="bi bi-play-fill"></i> Start Campaign
+                                            </button>
+                                            <button id="pauseBulkBtn" class="btn btn-warning" disabled>
+                                                <i class="bi bi-pause-fill"></i> Pause
+                                            </button>
+                                            <button id="resumeBulkBtn" class="btn btn-info" disabled>
+                                                <i class="bi bi-skip-forward-fill"></i> Resume
+                                            </button>
+                                            <button id="stopBulkBtn" class="btn btn-danger" disabled>
+                                                <i class="bi bi-stop-fill"></i> Stop
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Enterprise Bulk Settings -->
+                                <div class="mt-4 collapse" id="enterpriseBulkSettings">
+                                    <div class="card border-info">
+                                        <div
+                                            class="card-header bg-info text-white d-flex justify-content-between align-items-center">
+                                            <span><i class="bi bi-building"></i> Enterprise Settings (5000+
+                                                Contacts)</span>
+                                            <span class="badge bg-light text-dark">PRO</span>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row g-3">
+                                                <div class="col-md-4">
+                                                    <label class="form-label small">Batch Size</label>
+                                                    <input type="number" id="batchSizeInput" class="form-control"
+                                                        value="50" min="10" max="200">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label small">Batch Delay (s)</label>
+                                                    <input type="number" id="batchDelayInput" class="form-control"
+                                                        value="60" min="10" max="300">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label class="form-label small">Parallel Sends</label>
+                                                    <input type="number" id="parallelLimitInput" class="form-control"
+                                                        value="3" min="1" max="10">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: CONTACTS & PLANS ========== -->
+            <div id="view-contacts" class="view">
+                <div class="row g-4">
+                    <!-- Add Contact Form -->
+                    <div class="col-md-4">
+                        <div class="card sticky-top" style="top: 20px;">
+                            <div class="card-header">
+                                <i class="bi bi-person-plus"></i> Add / Edit Contact
+                            </div>
+                            <div class="card-body">
+                                <div class="auto-responder-status mb-3">
+                                    <i class="bi bi-robot text-info"></i>
+                                    <strong>Auto-Responder:</strong> Renewal/Expiry messages are sent automatically
+                                    every 60 seconds.
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Full Name</label>
+                                    <input type="text" id="contactName" class="form-control" placeholder="John Doe">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Phone Number</label>
+                                    <input type="text" id="contactPhone" class="form-control" placeholder="+1234567890">
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-6">
+                                        <label class="form-label small">Plan Start Date</label>
+                                        <input type="date" id="contactStart" class="form-control">
+                                    </div>
+                                    <div class="col-6">
+                                        <label class="form-label small">Plan End Date</label>
+                                        <input type="date" id="contactEnd" class="form-control">
+                                    </div>
+                                </div>
+                                <button id="addContactBtn" class="btn btn-primary w-100 mb-3">
+                                    <i class="bi bi-person-plus-fill"></i> Add Contact
+                                </button>
+
+                                <hr>
+
+                                <div class="mb-2">
+                                    <label class="form-label small fw-bold">Import from CSV</label>
+                                    <input type="file" id="contactCsvFile" class="form-control" accept=".csv">
+                                    <div class="form-text">Format: Name, Phone, Start, End</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacts List -->
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <span><i class="bi bi-list-ul"></i> Saved Contacts</span>
+                                <span class="badge bg-light text-dark" id="contactCountBadge">0</span>
+                            </div>
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" id="searchContacts" class="form-control"
+                                        placeholder="Search contacts by name, phone, or status...">
+                                </div>
+                                <div class="card-body p-0">
+                                    <div id="contactsList" style="max-height: 600px; overflow-y: auto;"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: NOTIFICATION AUTOMATION ========== -->
+            <div id="view-notifications" class="view">
+                <div class="alert alert-info mb-4">
+                    <i class="bi bi-robot"></i>
+                    <strong>Automation Hub:</strong> Configure automated message templates. Messages are triggered
+                    automatically when adding contacts (Welcome), extending plans (Renewal), or on expiration dates
+                    (Expiry).
+                </div>
+
+                <div class="row g-4">
+                    <!-- Welcome Message -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-success">
+                            <div class="card-header bg-success text-white">
+                                <i class="bi bi-star-fill"></i> Welcome Message
+                            </div>
+                            <div class="card-body">
+                                <textarea id="notifStartMsg" class="form-control" rows="5"
+                                    placeholder="Welcome {name}! Your plan starts on {start}."></textarea>
+                                <div class="form-text mt-2">
+                                    <strong>Trigger:</strong> Adding new contact with start date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Renewal Message -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-primary">
+                            <div class="card-header bg-primary text-white">
+                                <i class="bi bi-arrow-repeat"></i> Renewal Message
+                            </div>
+                            <div class="card-body">
+                                <textarea id="notifRenewalMsg" class="form-control" rows="5"
+                                    placeholder="Hi {name}, thank you for renewing! Your new expiry is {end}."></textarea>
+                                <div class="form-text mt-2">
+                                    <strong>Trigger:</strong> Updating end date to later date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Expiry Warning -->
+                    <div class="col-md-4">
+                        <div class="card h-100 border-danger">
+                            <div class="card-header bg-danger text-white">
+                                <i class="bi bi-exclamation-triangle-fill"></i> Expiry Warning
+                            </div>
+                            <div class="card-body">
+                                <textarea id="notifEndMsg" class="form-control" rows="5"
+                                    placeholder="Hello {name}, your plan expires today ({end}). Please renew."></textarea>
+                                <div class="form-text mt-2">
+                                    <strong>Trigger:</strong> Automated check every 60 seconds
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-end mt-4">
+                    <button id="saveNotifSettingsBtn" class="btn btn-dark btn-lg px-5">
+                        <i class="bi bi-save"></i> Save Automation Settings
+                    </button>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: SCHEDULER ========== -->
+            <div id="view-scheduler" class="view">
+                <div class="row g-4">
+                    <!-- Create Schedule -->
+                    <div class="col-md-5">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-calendar-plus"></i> Create Schedule Job
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-success small mb-3">
+                                    <i class="bi bi-clock"></i>
+                                    <strong>Time Accuracy:</strong> Scheduler checks every 10 seconds for better
+                                    accuracy.
+                                </div>
+                                <div class="col-md-6">
+                                      <label class="form-label">Schedule Date</label>
+                                      <input type="date" id="scheduleDate" class="form-control">
+                               </div>
+
+                                <div class="mb-3">
+
+                                    <label class="form-label">Schedule Time (24h format)</label>
+                                    <input type="time" id="scheduleTime" class="form-control">
+                                </div>
+
+                                <div class="mb-3">
+                                    <a href="#" class="text-decoration-none fw-semibold" data-bs-toggle="collapse"
+                                        data-bs-target="#schedSaved">
+                                        <i class="bi bi-caret-down-fill"></i> Select from Contacts
+                                        <span id="scheduleContactCounter" class="badge bg-secondary ms-2">0/0</span>
+                                    </a>
+                                    <div id="schedSaved" class="collapse mt-2 border rounded p-2 bg-light">
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="selectAllSchedule">
+                                            <label class="form-check-label fw-bold">Select All</label>
+                                        </div>
+                                        <div class="mb-2">
+                                            <input type="text" id="searchScheduleContacts"
+                                                class="form-control form-control-sm"
+                                                placeholder="Search saved contacts...">
+                                        </div>
+                                        <div id="scheduleContactsList" class="contacts-scroll-box"></div>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Manual Recipients</label>
+                                    <textarea id="scheduleRecipients" class="form-control" rows="2"
+                                        placeholder="One phone per line..."></textarea>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Message</label>
+                                    <textarea id="scheduleMessage" class="form-control" rows="4"></textarea>
+                                </div>
+                                <div class="form-text">
+                                        <i class="bi bi-lightbulb"></i> Use <code>{name} | {filename} | {date}</code> for dynamic
+                                        personalization
+                                </div>
+
+                                <div class="mb-3">
+                                    <label class="form-label">Attachment (Optional)</label>
+                                    <input type="file" id="scheduleFile" class="form-control">
+                                    <div class="form-text">Max: <span id="scheduleFileSize">30MB</span></div>
+                                </div>
+
+                                <div class="alert alert-warning small mb-3">
+                                    <i class="bi bi-shield-check"></i>
+                                    <strong>Duplicate Prevention:</strong> Scheduler checks every 10 seconds to ensure
+                                    no duplicate sends.
+                                </div>
+
+                                <button id="saveScheduleBtn" class="btn btn-primary w-100">
+                                    <i class="bi bi-calendar-check"></i> Schedule Job
+                                </button>
+
+                                <!-- Send Now Button -->
+                                <button id="sendScheduleNowBtn" class="btn btn-outline-success w-100 mt-2">
+                                    <i class="bi bi-send"></i> Send Now (Test)
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Pending Schedules & Controls -->
+                    <div class="col-md-7">
+                        <div class="card h-100">
+                            <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                <span><i class="bi bi-clock-history"></i> Pending Jobs & Controls</span>
+                                <div class="scheduler-controls">
+                                    <button id="pauseSchedulerBtn" class="btn btn-sm btn-warning"
+                                        title="Pause Scheduler">
+                                        <i class="bi bi-pause-fill"></i> Pause
+                                    </button>
+                                    <button id="resumeSchedulerBtn" class="btn btn-sm btn-success"
+                                        title="Resume Scheduler" disabled>
+                                        <i class="bi bi-play-fill"></i> Resume
+                                    </button>
+                                    <button id="stopSchedulerBtn" class="btn btn-sm btn-danger" title="Stop Scheduler">
+                                        <i class="bi bi-stop-fill"></i> Stop
+                                    </button>
+                                    <button id="resetSchedulerBtn" class="btn btn-outline-info"
+                                        title="Reset Scheduler State">
+                                        <i class="bi bi-arrow-clockwise"></i> Reset
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-info mb-3">
+                                    <i class="bi bi-info-circle"></i>
+                                    <strong>Scheduler Status:</strong>
+                                    <span id="schedulerStatusText" class="badge bg-success ms-2">Active</span>
+                                    <div class="small mt-1">Checks scheduled jobs every 10 seconds to prevent
+                                        duplicates.</div>
+                                </div>
+
+                                <div id="scheduleList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: TEMPLATES ========== -->
+            <div id="view-templates" class="view">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="bi bi-file-earmark-text"></i> Message Templates Library
+                            </div>
+                            <div class="card-body">
+                                <div class="mb-4">
+                                    <label class="form-label">Create New Template</label>
+                                    <div class="input-group">
+                                        <textarea id="templateText" class="form-control" rows="3"
+                                            placeholder="Enter your template message..."></textarea>
+                                        <button id="saveTplBtn" class="btn btn-success">
+                                            <i class="bi bi-plus-lg"></i> Save
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <label class="form-label fw-bold">Saved Templates</label>
+                                <div id="templatesList"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: LOGS ========== -->
+            <div id="view-logs" class="view">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
+                        <span><i class="bi bi-journal-text"></i> Activity & System Logs</span>
+                        <div class="btn-group">
+                            <button id="exportCsvBtn" class="btn btn-sm btn-success">
+                                <i class="bi bi-file-earmark-spreadsheet"></i> Export CSV
+                            </button>
+                            <button id="clearLogsBtn" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <div id="logsTable"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== VIEW: ADMIN SETTINGS ========== -->
+            <div id="view-admin" class="view">
+                <div class="row g-4">
+                    <!-- WhatsApp Instances -->
+                    <div class="col-md-6">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <i class="bi bi-hdd-network"></i> WhatsApp Gateway Instances
+                            </div>
+                            <div class="card-body">
+                                <div class="alert alert-light border mb-4">
+                                    <h6 class="alert-heading">Add New Instance</h6>
+                                    <input type="text" id="adminNewName" class="form-control mb-2"
+                                        placeholder="Friendly Name (e.g. Support Line)">
+                                    <input type="text" id="adminNewId" class="form-control mb-2"
+                                        placeholder="Instance ID">
+                                    <input type="text" id="adminNewEndpoint" class="form-control mb-2"
+                                        placeholder="API Endpoint URL">
+                                    <input type="password" id="adminNewToken" class="form-control mb-3"
+                                        placeholder="Access Token (Optional)">
+                                    <button id="adminAddInstanceBtn" class="btn btn-primary w-100">
+                                        <i class="bi bi-plus-circle"></i> Add Instance
+                                    </button>
+                                </div>
+                                <div class="card mb-4 border-primary shadow-sm">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <span><i class="bi bi-diagram-3-fill"></i> Account Pooling (Anti-Ban)</span>
+        <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" id="adminPoolToggle">
+            <label class="form-check-label text-white" for="adminPoolToggle">Enable</label>
+        </div>
+    </div>
+    <div class="card-body">
+        <p class="small text-muted mb-3">
+            Distribute bulk messages across multiple WhatsApp numbers to drastically reduce ban rates.
+        </p>
+
+        <div class="row g-3 mb-3">
+            <div class="col-md-6">
+                <label class="form-label fw-bold small">Routing Mode</label>
+                <select class="form-select form-select-sm" id="adminPoolMode">
+                    <option value="even">Split Evenly (e.g., 1-500 on A, 501-1000 on B)</option>
+                    <option value="rotate">Rotate Chunks (Swap numbers dynamically)</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label fw-bold small">Chunk Size (If Rotating)</label>
+                <input type="number" class="form-control form-control-sm" id="adminPoolChunkSize" min="1" max="500" value="50">
+                <div class="form-text" style="font-size: 0.7rem;">Swap to next number after this many messages.</div>
+            </div>
+        </div>
+
+        <hr>
+
+        <label class="form-label fw-bold small mb-2">Select Instances to Use in Pool:</label>
+        <div id="adminPoolInstancesContainer" class="p-3 border rounded bg-light" style="max-height: 150px; overflow-y: auto;">
+            <div class="text-center text-muted small"><span class="spinner-border spinner-border-sm"></span> Loading instances...</div>
+        </div>
+        <div class="form-text mt-1" style="font-size: 0.75rem;">
+            <i class="bi bi-info-circle"></i> Make sure the selected instances are actively connected to your backend.
+        </div>
+    </div>
+</div>
+
+                                <label class="form-label fw-bold mb-2">Configured Instances</label>
+                                <div id="adminInstanceList" class="list-group"></div>
+                            </div>
+                            <!-- Data Management -->
+                        <div class="card border-warning">
+                            <div class="card-header bg-warning">
+                                <i class="bi bi-database"></i> Data Management
+                            </div>
+                            <div class="card-body">
+                                <div class="d-grid gap-2">
+                                    <button id="adminBackupBtn" class="btn btn-outline-primary">
+                                        <i class="bi bi-download"></i> Download Backup (JSON)
+                                    </button>
+
+                                    <div class="position-relative">
+                                        <input type="file" id="adminRestoreInput" class="form-control" accept=".json">
+                                        <label
+                                            class="position-absolute top-50 end-0 translate-middle-y me-2 badge bg-info">
+                                            <i class="bi bi-upload"></i> Restore
+                                        </label>
+                                    </div>
+
+                                    <hr class="my-2">
+
+                                    <button id="adminFactoryResetBtn" class="btn btn-danger">
+                                        <i class="bi bi-radioactive"></i> Factory Reset (Delete All)
+                                    </button>
+                                </div>
+
+                                <div class="alert alert-warning mt-3 mb-0 small">
+                                    <i class="bi bi-exclamation-triangle"></i>
+                                    <strong>Warning:</strong> Factory reset permanently deletes all data including
+                                    contacts, logs, and settings.
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                        
+                    </div>
+
+                    <!-- System Settings & Data Management -->
+                    <div class="col-md-6">
+                        <!-- System Settings -->
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                <i class="bi bi-sliders"></i> System Settings
+                            </div>
+                            <div class="card-body">
+                                <!-- IP Detection -->
+                                <div class="ip-detection mb-4">
+                                    <label class="form-label fw-bold">Network Detection</label>
+                                    <div class="d-flex gap-2 mb-2">
+                                        <input type="text" id="adminMasterIP" class="form-control"
+                                            placeholder="Master PC IP Address">
+                                        <button id="adminDetectIPBtn" class="btn btn-outline-info">
+                                            <i class="bi bi-wifi"></i> Detect IP
+                                        </button>
+                                    </div>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="adminMasterToggle">
+                                        <label class="form-check-label" for="adminMasterToggle">
+                                            Set as Master PC (Current IP: <span id="adminCurrentIP"
+                                                class="fw-bold">Detecting...</span>)
+                                        </label>
+                                    </div>
+                                    <div class="form-text small">For multi-PC synchronization</div>
+                                </div>
+
+                                <!-- Delay Control -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">Anti-Ban Delay Control</label>
+                                    <input type="range" class="form-range" id="adminDelayRange" min="500" max="10000"
+                                        step="100" value="1200">
+                                    <div class="d-flex justify-content-between small text-muted mb-2">
+                                        <span><i class="bi bi-speedometer"></i> Fast (500ms)</span>
+                                        <span id="adminDelayDisplay" class="fw-bold text-primary fs-5">1200ms</span>
+                                        <span><i class="bi bi-hourglass-split"></i> Slow (10s)</span>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="adminJitterToggle" checked>
+                                        <label class="form-check-label small">Enable random jitter (+0-3s)</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="adminWatermarkToggle"
+                                            checked>
+                                        <label class="form-check-label small">Enable watermark optimization (reduces
+                                            delay when watermarking)</label>
+                                    </div>
+                                </div>
+
+                                <!-- File Size Control -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">File Size Limit</label>
+                                    <input type="range" class="form-range" id="adminFileSizeRange" min="5" max="100"
+                                        step="5" value="30">
+                                    <div class="d-flex justify-content-between small text-muted">
+                                        <span>5MB</span>
+                                        <span id="adminFileSizeDisplay" class="fw-bold text-primary fs-5">30MB</span>
+                                        <span>100MB</span>
+                                    </div>
+                                </div>
+
+                                <!-- Watermark Format Options -->
+                                <div class="watermark-format mb-4">
+                                    <label class="form-label fw-bold">Watermark Configuration</label>
+
+                                    <div class="mb-3">
+                                        <label class="small fw-semibold">Watermark Format</label>
+                                        <select class="form-select" id="adminWatermarkFormat">
+                                            <option value="name_phone">Name + Phone</option>
+                                            <option value="name">Name Only</option>
+                                            <option value="phone">Phone Only</option>
+                                            <option value="custom">Custom Text</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="small fw-semibold">Custom Watermark Text</label>
+                                        <input type="text" class="form-control" id="adminWatermarkText"
+                                            placeholder="{name} - {phone}">
+                                        <div class="form-text small">Use {name} for contact name, {phone} for phone
+                                            number</div>
+                                    </div>
+
+                                    <div class="alert alert-secondary small mb-0">
+                                        <i class="bi bi-info-circle"></i>
+                                        <strong>Watermark Preview:</strong> <span id="watermarkPreview">John Doe -
+                                            +1234567890</span>
+                                    </div>
+                                </div>
+
+                                <!-- Safety Settings for Large Batches -->
+                                <div class="safety-settings">
+                                    <label class="form-label fw-bold">Safety Settings (5000+ Contacts)</label>
+
+                                    <div class="row g-2 mb-3">
+                                        <div class="col-6">
+                                            <label class="small">Batch Size</label>
+                                            <input type="number" id="adminBatchSize" class="form-control" min="10"
+                                                max="200" value="50">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="small">Batch Delay (s)</label>
+                                            <input type="number" id="adminBatchDelay" class="form-control" min="10"
+                                                max="300" value="60">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="small">Parallel Sends</label>
+                                            <input type="number" id="adminParallelLimit" class="form-control" min="1"
+                                                max="10" value="3">
+                                        </div>
+                                        <div class="col-6">
+                                            <label class="small">Max Contacts/Batch</label>
+                                            <input type="number" id="adminMaxContacts" class="form-control" min="10"
+                                                max="1000" value="200">
+                                        </div>
+                                    </div>
+
+                                    <div class="form-check form-switch mb-3">
+                                        <input class="form-check-input" type="checkbox" id="adminSafetyToggle" checked>
+                                        <label class="form-check-label small">
+                                            Enable Progressive Delay (safer for large batches)
+                                        </label>
+                                    </div>
+
+                                    <div class="alert alert-secondary small">
+                                        <i class="bi bi-shield-check"></i>
+                                        Progressive delay increases gradually for batches over 100 contacts to prevent
+                                        rate limiting.
+                                    </div>
+                                </div>
+
+                                <!-- Server Check -->
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <div>
+                                        <strong>Python Watermark Server</strong>
+                                        <div class="small text-muted">localhost:5000</div>
+                                    </div>
+                                    <button id="adminCheckServerBtn" class="btn btn-sm btn-outline-info">
+                                        <i class="bi bi-arrow-clockwise"></i> Check
+                                    </button>
+                                </div>
+
+                                <button id="adminSaveSettingsBtn" class="btn btn-dark w-100 py-2">
+                                    <i class="bi bi-save"></i> Save Global Settings
+                                </button>
+                            </div>
+                        </div>
+                        
+
+                        
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer>
+        <div class="container-fluid">
+            <span>&copy; <span id="currentYear">2024</span> WhatsApp Sender Pro - Enterprise Edition v4.0. All rights Sh
+                reserved.</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>

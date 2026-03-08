@@ -1,0 +1,461 @@
+<style>
+        :root {
+            --sidebar-width: 260px;
+            --sidebar-collapsed: 60px;
+            --primary-dark: #2c3e50;
+            --primary-darker: #1a252f;
+            --transition-speed: 0.3s;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        /* ========== LAYOUT ========== */
+        .main-wrapper {
+            display: flex;
+            flex: 1;
+            position: relative;
+        }
+
+        /* ========== SIDEBAR ========== */
+        .sidebar {
+            width: var(--sidebar-width);
+            background: var(--primary-dark);
+            color: white;
+            min-height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 1000;
+            overflow-y: auto;
+            overflow-x: hidden;
+            transition: width var(--transition-speed) ease;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+        }
+        
+        .sidebar-brand {
+            padding: 20px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: var(--primary-darker);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            white-space: nowrap;
+        }
+
+        .sidebar-brand i {
+            font-size: 1.5rem;
+        }
+        
+        .nav-section {
+            padding: 10px 0;
+        }
+
+        .nav-btn {
+            width: 100%;
+            text-align: left;
+            padding: 14px 20px;
+            color: #adb5bd;
+            background: none;
+            border: none;
+            transition: all var(--transition-speed);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            border-left: 4px solid transparent;
+            white-space: nowrap;
+        }
+
+        .nav-btn i {
+            width: 20px;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+        
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: #fff;
+            padding-left: 25px;
+        }
+        
+        .nav-btn.active {
+            background: #0d6efd;
+            color: #fff;
+            border-left: 4px solid #fff;
+            font-weight: 600;
+        }
+
+        .sidebar-divider {
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 10px 20px;
+        }
+
+        .sidebar-footer {
+            padding: 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin-top: auto;
+        }
+        
+        /* ========== MAIN CONTENT ========== */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            padding: 30px;
+            width: calc(100% - var(--sidebar-width));
+            transition: margin-left var(--transition-speed) ease;
+        }
+        
+        /* ========== HEADER ========== */
+        header {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        #viewTitle {
+            color: var(--primary-dark);
+            font-weight: 700;
+            margin: 0;
+            font-size: 1.5rem;
+        }
+
+        .status-badge-group {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        /* ========== VIEWS ========== */
+        .view {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+
+        .view.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* ========== CARDS ========== */
+        .card {
+            border: none;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            margin-bottom: 25px;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.12);
+        }
+        
+        .card-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom: none;
+            font-weight: 600;
+            padding: 18px 25px;
+            font-size: 1.05rem;
+        }
+
+        .card-header i {
+            margin-right: 8px;
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+        
+        /* ========== FORM ELEMENTS ========== */
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+        }
+
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            padding: 10px 15px;
+            transition: all 0.2s;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.15);
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* ========== BUTTONS ========== */
+        .btn {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-weight: 500;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .btn i {
+            margin-right: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(25, 135, 84, 0.4);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 53, 69, 0.4);
+        }
+        
+        /* ========== BADGES ========== */
+        .badge {
+            padding: 8px 14px;
+            font-weight: 500;
+            border-radius: 6px;
+        }
+        
+        /* ========== SPECIFIC COMPONENTS ========== */
+        .truncate {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .contacts-scroll-box {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 12px;
+            background: #f8f9fa;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 4px;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        .contacts-scroll-box::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* ========== ALERTS ========== */
+        .alert {
+            border-radius: 10px;
+            border: none;
+            padding: 18px 22px;
+        }
+
+        .alert i {
+            margin-right: 10px;
+        }
+
+        /* ========== DASHBOARD STATS ========== */
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            border-radius: 12px;
+            background: white;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+
+        .stat-card h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .stat-card .stat-label {
+            color: #6c757d;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ========== FOOTER ========== */
+        footer {
+            background: white;
+            border-top: 1px solid #e0e0e0;
+            padding: 12px 20px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #6c757d;
+            margin-left: var(--sidebar-width);
+            transition: margin-left var(--transition-speed) ease;
+        }
+        
+        /* ========== RESPONSIVE DESIGN ========== */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: var(--sidebar-collapsed);
+            }
+
+            .sidebar-brand span,
+            .nav-btn span {
+                display: none;
+            }
+
+            .nav-btn {
+                justify-content: center;
+                padding: 16px 0;
+            }
+
+            .nav-btn:hover {
+                padding-left: 0;
+            }
+
+            .nav-btn i {
+                margin: 0;
+                font-size: 1.3rem;
+            }
+
+            .main-content {
+                margin-left: var(--sidebar-collapsed);
+                width: calc(100% - var(--sidebar-collapsed));
+                padding: 20px;
+            }
+
+            footer {
+                margin-left: var(--sidebar-collapsed);
+            }
+
+            header {
+                padding: 15px 20px;
+            }
+
+            #viewTitle {
+                font-size: 1.25rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 15px;
+            }
+
+            .card-body {
+                padding: 20px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 0.9rem;
+            }
+
+            .stat-card h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* ========== LOADING SPINNER ========== */
+        .spinner-grow {
+            animation: spinner-grow 0.75s linear infinite;
+        }
+
+        /* ========== CUSTOM UTILITIES ========== */
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .bg-gradient-success {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+        }
+
+        .bg-gradient-danger {
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+        }
+
+        .bg-gradient-warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+    </style>
+</head>

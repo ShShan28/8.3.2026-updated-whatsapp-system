@@ -1,0 +1,3 @@
+first download xampp application for run  the php files in the pc.
+https://www.apachefriends.org/download.html download to windows.
+next install and start the apache after use this link http://localhost/WA-PDF-SENDER/index.html carefull the folder structure place the files correct order C:\xampp\htdocs\WA-PDF-Sender inside WA-PDF-Sender this folder place all files html,css,py,php,js.

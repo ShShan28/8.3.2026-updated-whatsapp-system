@@ -1,0 +1,2 @@
+every time you want run cmd in C:\xampp\htdocs\WA-PDF-Sender> type cmd and enter and type this command py server.py and press enter.
+and start apache in xampp control panel.

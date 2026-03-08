@@ -1,0 +1,136 @@
+process for applying watermark for pdf and images.
+first install the python from website. https://www.python.org/downloads/release/python-3142/
+next open the folder structure in filemanager and last folder type cmd and press enter. C:\xampp\htdocs\WA-PDF-Sender here type cmd and press enter. and cmd panel will open with folder location.
+next paste the commands in that cmd.
+
+pip install Flask
+pip install Pillow
+pip install PyPDF2 reportlab
+
+you will seeing the output in cmd like these
+
+
+C:\xampp\htdocs\WA-PDF-Sender>py -m pip install Flask
+Collecting Flask
+  Downloading flask-3.1.2-py3-none-any.whl.metadata (3.2 kB)
+Collecting blinker>=1.9.0 (from Flask)
+  Downloading blinker-1.9.0-py3-none-any.whl.metadata (1.6 kB)
+Collecting click>=8.1.3 (from Flask)
+  Downloading click-8.3.1-py3-none-any.whl.metadata (2.6 kB)
+Collecting itsdangerous>=2.2.0 (from Flask)
+  Downloading itsdangerous-2.2.0-py3-none-any.whl.metadata (1.9 kB)
+Collecting jinja2>=3.1.2 (from Flask)
+  Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+Collecting markupsafe>=2.1.1 (from Flask)
+  Downloading markupsafe-3.0.3-cp314-cp314-win_amd64.whl.metadata (2.8 kB)
+Collecting werkzeug>=3.1.0 (from Flask)
+  Downloading werkzeug-3.1.4-py3-none-any.whl.metadata (4.0 kB)
+Collecting colorama (from click>=8.1.3->Flask)
+  Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+Downloading flask-3.1.2-py3-none-any.whl (103 kB)
+Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+Downloading click-8.3.1-py3-none-any.whl (108 kB)
+Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Downloading markupsafe-3.0.3-cp314-cp314-win_amd64.whl (15 kB)
+Downloading werkzeug-3.1.4-py3-none-any.whl (224 kB)
+Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Installing collected packages: markupsafe, itsdangerous, colorama, blinker, werkzeug, jinja2, click, Flask
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╺━━━━ 7/8 [Flask]  WARNING: The script flask.exe is installed in 'C:\Users\Shan\AppData\Local\Python\pythoncore-3.14-64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed Flask-3.1.2 blinker-1.9.0 click-8.3.1 colorama-0.4.6 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.3 werkzeug-3.1.4
+
+C:\xampp\htdocs\WA-PDF-Sender>py -m pip install Pillow
+Collecting Pillow
+  Downloading pillow-12.0.0-cp314-cp314-win_amd64.whl.metadata (9.0 kB)
+Downloading pillow-12.0.0-cp314-cp314-win_amd64.whl (7.1 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 1.1 MB/s  0:00:06
+Installing collected packages: Pillow
+Successfully installed Pillow-12.0.0
+
+C:\xampp\htdocs\WA-PDF-Sender>py -m pip install PyPDF2 reportlab
+Collecting PyPDF2
+  Downloading pypdf2-3.0.1-py3-none-any.whl.metadata (6.8 kB)
+Collecting reportlab
+  Downloading reportlab-4.4.5-py3-none-any.whl.metadata (1.7 kB)
+Requirement already satisfied: pillow>=9.0.0 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from reportlab) (12.0.0)
+Collecting charset-normalizer (from reportlab)
+  Downloading charset_normalizer-3.4.4-cp314-cp314-win_amd64.whl.metadata (38 kB)
+Downloading pypdf2-3.0.1-py3-none-any.whl (232 kB)
+Downloading reportlab-4.4.5-py3-none-any.whl (2.0 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 952.5 kB/s  0:00:02
+Downloading charset_normalizer-3.4.4-cp314-cp314-win_amd64.whl (107 kB)
+Installing collected packages: PyPDF2, charset-normalizer, reportlab
+   ━━━━━━━━━━━━━╺━━━━━━━━━━━━━━━━━━━━━━━━━━ 1/3 [charset-normalizer]  WARNING: The script normalizer.exe is installed in 'C:\Users\Shan\AppData\Local\Python\pythoncore-3.14-64\Scripts' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed PyPDF2-3.0.1 charset-normalizer-3.4.4 reportlab-4.4.5
+
+C:\xampp\htdocs\WA-PDF-Sender>
+
+next paste below command also
+
+py -m pip install flask-cors
+
+you will seeing the output like this
+
+C:\xampp\htdocs\WA-PDF-Sender>py -m pip install flask-cors
+Collecting flask-cors
+  Downloading flask_cors-6.0.1-py3-none-any.whl.metadata (5.3 kB)
+Requirement already satisfied: flask>=0.9 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask-cors) (3.1.2)
+Requirement already satisfied: Werkzeug>=0.7 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask-cors) (3.1.4)
+Requirement already satisfied: blinker>=1.9.0 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask>=0.9->flask-cors) (1.9.0)
+Requirement already satisfied: click>=8.1.3 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask>=0.9->flask-cors) (8.3.1)
+Requirement already satisfied: itsdangerous>=2.2.0 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask>=0.9->flask-cors) (2.2.0)
+Requirement already satisfied: jinja2>=3.1.2 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask>=0.9->flask-cors) (3.1.6)
+Requirement already satisfied: markupsafe>=2.1.1 in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from flask>=0.9->flask-cors) (3.0.3)
+Requirement already satisfied: colorama in c:\users\shan\appdata\local\python\pythoncore-3.14-64\lib\site-packages (from click>=8.1.3->flask>=0.9->flask-cors) (0.4.6)
+Downloading flask_cors-6.0.1-py3-none-any.whl (13 kB)
+Installing collected packages: flask-cors
+Successfully installed flask-cors-6.0.1
+
+next paste this command also
+
+py server.py
+
+you will seeing the output like this
+
+C:\xampp\htdocs\WA-PDF-Sender>py server.py
+Starting Watermark API on http://127.0.0.1:5000
+ * Serving Flask app 'server'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://100.97.8.239:5000
+Press CTRL+C to quit
+
+*when you quit this command watermark applying feature is didn't work.
+so dont quit, when your didn't quit you will seeing like below output because watermark function is working so no problem.everytime when you using watermark function below new line will automatically creating, then now all are working...
+
+ C:\xampp\htdocs\WA-PDF-Sender>py server.py
+Starting Watermark API on http://127.0.0.1:5000
+ * Serving Flask app 'server'
+ * Debug mode: off
+WARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://100.97.8.239:5000
+Press CTRL+C to quit
+127.0.0.1 - - [07/Dec/2025 06:53:39] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 06:53:40] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 06:53:54] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 06:53:55] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 06:56:39] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 06:56:40] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:00:23] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:00:24] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:07:01] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:07:01] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:09:15] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:09:16] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:12:06] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:12:07] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:15:48] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:15:49] "POST /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:22:04] "OPTIONS /api/watermark_file HTTP/1.1" 200 -
+127.0.0.1 - - [07/Dec/2025 07:22:05] "POST /api/watermark_file HTTP/1.1" 200 -
