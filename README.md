@@ -58,3 +58,11 @@ Stability: Moved massive files to IndexedDB V2 to prevent browser crashes.
 Personalization: Full Tamil support for dates and names across all tabs.
 
 Security: Distributed load across multiple instances to keep your accounts safe.
+
+6. Day variable
+   
+The variable is no longer just a static "today's date." It now changes its behavior based on which tool you are using:
+
+Single & Bulk Sender: It automatically calls the Present Day (e.g., if you send now, it says ஞாயிற்றுக்கிழமை).
+
+Message Scheduler: It is "Date-Aware." If you schedule a message for next Wednesday, the {day} tag will correctly say புதன்கிழமை, even if you are writing the message today.
